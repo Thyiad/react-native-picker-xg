@@ -6,9 +6,12 @@ import {
     View,
     Text,
     Animated,
-    ScrollView
+    ScrollView,
+    Image,
 } from 'react-native';
 import {rollStyles} from './pickerStyle';
+
+import * as pickConfig from '../constants/pickerConfig';
 
 /**
  * 组件扩展
@@ -69,7 +72,7 @@ class Pickroll extends Component {
     let diff = index - _index;
     let marginValue;
     if (diff) {
-      marginValue = diff * 36;
+      marginValue = diff * pickConfig.rollItemHeight;
       this.index = index;
       this.moveDy = this.moveDy + marginValue;
       this.refs._scrollView.scrollTo({y: this.moveDy});
@@ -87,9 +90,9 @@ class Pickroll extends Component {
     let middleItems = [];
     let total = new Animated.Value(this.moveDy);
     items.forEach((item, index) => {
-      middleItems[index + 2] = <View style={rollStyles.textContainer} key={'mid' + (index + 2)}><Animated.Text
-        className={'mid' + (index + 2)}
-        onPress={() => {this._moveTo(index + 2);}}
+      middleItems[index + pickConfig.aroundItemCount] = <View style={rollStyles.textContainer} key={'mid' + (index + pickConfig.aroundItemCount)}><Animated.Text
+        className={'mid' + (index + pickConfig.aroundItemCount)}
+        onPress={() => {this._moveTo(index + pickConfig.aroundItemCount);}}
         numberOfLines={1}
         style={[rollStyles.middleText, this.props.itemStyle,
           {
@@ -100,19 +103,24 @@ class Pickroll extends Component {
                           //     outputRange: [20, 22, 20]}),
             opacity:
                             total.interpolate({
-                              inputRange: [(index - 2) * 36, index * 36, (index + 2) * 36],
+                              inputRange: [(index - pickConfig.aroundItemCount) * pickConfig.rollItemHeight, index * pickConfig.rollItemHeight, (index + pickConfig.aroundItemCount) * pickConfig.rollItemHeight],
                               outputRange: [0.4, 1.0, 0.4]})
           }
         ]}>{item.label}
       </Animated.Text></View>;
     });
 
-    let aroundItemArray = [0, 1, items.length + 2, items.length + 1 + 2];
-    aroundItemArray.forEach((item, index) => {
-      middleItems[item] = <View style={rollStyles.textContainer} key={'mid' + item}><Text
-        className={'mid' + item}
-        style={[rollStyles.middleText, this.props.itemStyle]} /></View>;
-    });
+    for(let i=0;i<pickConfig.aroundItemCount;i++){
+        middleItems[i] = <View style={rollStyles.textContainer} key={'mid' + i}><Text
+            className={'mid' + i}
+            style={[rollStyles.middleText, this.props.itemStyle]} /></View>;
+    }
+
+    for(let i=items.length + 1;i<items.length + pickConfig.aroundItemCount * 2;i++) {
+        middleItems[i] = <View style={rollStyles.textContainer} key={'mid' + i}><Text
+            className={'mid' + i}
+            style={[rollStyles.middleText, this.props.itemStyle]}/></View>;
+    }
 
     return middleItems;
   }
@@ -123,8 +131,8 @@ class Pickroll extends Component {
    * @private
    */
   _onValueChange(){
-    let curItem = this.items[this.index - 2];
-    this.props.onValueChange && this.props.onValueChange(curItem, this.index - 2, this.props.wheelNumber);
+    let curItem = this.items[this.index - pickConfig.aroundItemCount];
+    this.props.onValueChange && this.props.onValueChange(curItem, this.index - pickConfig.aroundItemCount, this.props.wheelNumber);
   }
 
   /**
@@ -134,15 +142,15 @@ class Pickroll extends Component {
    */
   _calculateItemroll(type) {
     let diff;
-    if (this.moveDy % 36 > 18) {
-      diff = Math.ceil(this.moveDy / 36);
-      this.moveDy =  diff * 36;
+    if (this.moveDy % pickConfig.rollItemHeight > pickConfig.rollItemHeight/2) {
+      diff = Math.ceil(this.moveDy / pickConfig.rollItemHeight);
+      this.moveDy =  diff * pickConfig.rollItemHeight;
     } else {
-      diff = Math.floor(this.moveDy / 36);
-      this.moveDy =  diff * 36;
+      diff = Math.floor(this.moveDy / pickConfig.rollItemHeight);
+      this.moveDy =  diff * pickConfig.rollItemHeight;
     }
     this.refs._scrollView.scrollTo({x: 0, y: this.moveDy, animated: true});
-    this.index = 2 + diff;
+    this.index = pickConfig.aroundItemCount + diff;
     this._onValueChange();
   }
 
@@ -179,8 +187,8 @@ class Pickroll extends Component {
     this.items = [];
     if (!this._compareArray(this.data, this.props.data)) {
       this.fingerLeft = false;
-      this.moveDy = this.props.selectedIndex * 36;
-      this.index =  this.props.selectedIndex + 2;
+      this.moveDy = this.props.selectedIndex * pickConfig.rollItemHeight;
+      this.index =  this.props.selectedIndex + pickConfig.aroundItemCount;
       setTimeout(() => {
         this.refs._scrollView.scrollTo({y: this.moveDy});
       },0);
@@ -199,8 +207,8 @@ class Pickroll extends Component {
     this._dataHandle();
     return (
       <View style={{flex: 1}}>
-      <View style={{position: 'absolute', width: 400, height: 36, borderTopWidth: 1, borderBottomWidth: 1, borderColor: '#ccc', marginTop: 75}} />
-      <ScrollView
+        <View style={{position: 'absolute',left:0, right:0, top:pickConfig.rollItemHeight+pickConfig.paddingTop, height: pickConfig.rollItemHeight, borderTopWidth: 1, borderBottomWidth: 1, borderColor: '#ebebeb'}} />
+        <ScrollView contentContainerStyle={{paddingTop: pickConfig.paddingTop, paddingBottom: pickConfig.paddingBottom}}
         ref="_scrollView"
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
@@ -212,7 +220,7 @@ class Pickroll extends Component {
         <View style={[rollStyles.middleView]}>
           {this._renderItems(this.items)}
         </View>
-      </ScrollView>
+        </ScrollView>
       </View>
     );
   }

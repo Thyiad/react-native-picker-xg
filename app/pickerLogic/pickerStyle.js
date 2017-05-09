@@ -4,6 +4,8 @@ import {
   PixelRatio
 } from 'react-native';
 
+import * as pickConfig from '../constants/pickerConfig';
+
 let height = Dimensions.get('window').height;
 let width = Dimensions.get('window').width;
 let ratio = PixelRatio.get();
@@ -22,7 +24,7 @@ let styles = StyleSheet.create({
   },
   innerContainer: {
     position:'absolute',
-    height:220,
+    height:pickConfig.pickerHeight,
     width:width,
     backgroundColor:'white',
   }
@@ -48,14 +50,14 @@ let rollStyles = StyleSheet.create({
     alignItems: 'center'
   },
   textContainer: {
-    height: 36,
+    height: pickConfig.rollItemHeight,
     alignSelf: 'stretch',
     alignItems: 'center',
     justifyContent: 'center'
   },
   middleText: {
-    color: '#000',
-    fontSize: 16,
+    color: '#555',
+    fontSize: 17,
     marginTop: 0,
     marginBottom: 0,
   }

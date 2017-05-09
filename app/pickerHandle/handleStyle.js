@@ -4,22 +4,27 @@ import {
   PixelRatio
 } from 'react-native';
 
+import Styles from '../../../constants/Styles';
+
 let styles = StyleSheet.create({
 
   nav: {
     flexDirection: 'row',
     flex:2,
-    alignItems: 'stretch'
+    alignItems: 'center',
+    backgroundColor:Styles.colors.green,
+    height:55,
   },
   confirm: {
     flex:1,
     justifyContent: 'center'
   },
   confirmBtnStyle:{
-    textAlign:'left',
-    paddingLeft:20,
-    paddingRight:20,
-    fontSize: 18
+      textAlign:'right',
+      paddingLeft:35,
+      paddingRight:35,
+      fontSize: 18,
+      color:'white',
   },
   pickerName:{
     textAlign:'center',
@@ -35,10 +40,11 @@ let styles = StyleSheet.create({
     alignItems: 'center'
   },
   cancelBtnStyle: {
-    textAlign:'right',
-    paddingLeft:20,
-    paddingRight:20,
-    fontSize: 18
+      textAlign:'left',
+      paddingLeft:35,
+      paddingRight:35,
+      fontSize: 18,
+      color:'white',
   }
 });
 
