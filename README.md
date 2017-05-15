@@ -1,3 +1,10 @@
+### 修改说明
+- 允许自定义content（原固定为内置Input）
+- 允许自定义行数
+- 限定数据格式
+- 父子数据自动联动
+- 高度、padding配置化
+
 ### The React-Native-Picker
 
 react native Picker component for both Android and iOS based on pure JavaScript.
