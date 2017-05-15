@@ -7,6 +7,8 @@
 - 父子数据自动联动
 - 高度、padding配置化
 
+## 原README
+
 ### The React-Native-Picker
 
 react native Picker component for both Android and iOS based on pure JavaScript.
