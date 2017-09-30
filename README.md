@@ -6,8 +6,11 @@
 - 限定数据格式
 - 父子数据自动联动
 - 高度、padding配置化
+- 选择器中路内容允许自定义
 
-## 原README
+### 效果如下
+
+## 以下是原项目的README
 
 ### The React-Native-Picker
 
