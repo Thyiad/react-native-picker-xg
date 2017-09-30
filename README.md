@@ -9,7 +9,7 @@
 - 选择器中路内容允许自定义
 
 ### 效果如下
-![Alt picker](picker.png "picker")
+![Alt picker](picker.jpg "picker")
 
 ## 以下是原项目的README
 
