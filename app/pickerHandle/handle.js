@@ -35,7 +35,8 @@ class Handle extends Component {
      */
   static propTypes = {
     //传递的数据
-    data: PropTypes.array
+    data: PropTypes.array,
+    renderHandleCenter: PropTypes.func,
   };
 
   /**
@@ -64,6 +65,7 @@ class Handle extends Component {
               </TouchableOpacity>
             <View style={styles.pickerNameContainer}>
               <Text style={[styles.pickerName,this.props.pickerNameStyle]}>{this.props.pickerName}</Text>
+              {this.props.renderHandleCenter?this.props.renderHandleCenter():null}
             </View>
               <TouchableOpacity  style={styles.confirm} onPress={() => {this.props.confirmChose();}}>
                   <Text className={'confirm'}

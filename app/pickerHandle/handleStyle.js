@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 
 import Styles from '../../../constants/Styles';
+import * as PickerConfig from '../constants/pickerConfig';
 
 let styles = StyleSheet.create({
 
@@ -13,7 +14,7 @@ let styles = StyleSheet.create({
     flex:2,
     alignItems: 'center',
     backgroundColor:Styles.colors.green,
-    height:55,
+    height:PickerConfig.navHeight,
   },
   confirm: {
     flex:1,
@@ -27,8 +28,9 @@ let styles = StyleSheet.create({
       color:'white',
   },
   pickerName:{
-    textAlign:'center',
-    fontSize: 14
+      textAlign:'center',
+      fontSize: 18,
+      color:'white'
   },
   cancel: {
     flex:1,

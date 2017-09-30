@@ -81,6 +81,8 @@ class CascadePicker extends Component {
     emptyText: PropTypes.string,
     firstRollCanEmpty: PropTypes.bool,
     subRollCanEmpty: PropTypes.bool,
+    renderHandleCenter: PropTypes.func,
+    onWheelChange: PropTypes.func,
   };
 
   /**
@@ -135,7 +137,7 @@ class CascadePicker extends Component {
                   return item.parentId === parentId;
               });
               if(this.props.subRollCanEmpty){
-                  passData[i].unshift(this.emptyItem);
+                  passData[i].unshift({...this.emptyItem, parentId: parentId});
               }else if(!this.props.firstRollCanEmpty){
                   let selectedItem = passData[i][0];
                   this.choseValue.push({value:selectedItem.id, label: selectedItem.name, parentId: selectedItem.parentId});
@@ -206,6 +208,8 @@ class CascadePicker extends Component {
       this.beforeValue = this.choseValue.slice();
 
       this._setModalVisible(true);
+      let firstItem = this.props.data[0];
+      this.props.onWheelChange && this.props.onWheelChange({value: firstItem.id, label: firstItem.name, parentId: firstItem.parentId}, 0, 0);
     } else {
       this.state.visible = false;
     }
@@ -293,7 +297,7 @@ class CascadePicker extends Component {
         })
           let firstData = wheelData[0];
         if(this.props.subRollCanEmpty && firstData){
-            wheelData.unshift(this.emptyItem);
+            wheelData.unshift({...this.emptyItem, parentId: parentId});
             firstData = wheelData[0];
         }else if(!this.props.subRollCanEmpty && firstData) {
             this.choseNumber[i] = 0;
@@ -331,6 +335,7 @@ class CascadePicker extends Component {
                 pickerName = {this.props.pickerName}
                 confirmBtnText = {this.props.confirmBtnText}
                 cancelBtnText = {this.props.cancelBtnText}
+                renderHandleCenter={this.props.renderHandleCenter}
                 />
               <View style={[styles.pickContainer]} >
                 {that.state.passData && that.state.passData.map((item,index) =>{
